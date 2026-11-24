@@ -15,7 +15,6 @@ modules:
     install:
       packages:
         - micro
-        - jq
 
   - type: default-flatpaks@v1
     notify: true
@@ -26,17 +25,5 @@ modules:
         - ai.opencode.opencode
         - org.qbittorrent.qBittorrent
         - org.videolan.VLC
-
-  - type: script
-    snippets:
-      - |
-        set -euo pipefail
-        HOST="api.github.com"
-        REPO="AprilNEA/OpenLogi"
-        API_URL="https://${HOST}/repos/${REPO}/releases/latest"
-        RPM_URL=$(curl -fsSL "$API_URL" | jq -r '.assets[].browser_download_url | select(endswith(".rpm"))' | head -n 1)
-        curl -fsSL "$RPM_URL" -o /tmp/openlogi.rpm
-        dnf install -y /tmp/openlogi.rpm
-        rm -f /tmp/openlogi.rpm
 
   - type: signing
