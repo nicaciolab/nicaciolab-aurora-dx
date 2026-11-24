@@ -26,4 +26,15 @@ modules:
         - ai.opencode.opencode
         - org.qbittorrent.qBittorrent
         - org.videolan.VLC
+
+  # Instala o OpenCode CLI e a última release oficial (.rpm) do OpenLogi via API do GitHub
+  - type: script
+    snippets:
+      - "curl -fsSL https://opencode.ai | OPENCODE_INSTALL_DIR=/usr/bin bash"
+      - |
+        RPM_URL=$(curl -fsSL https://github.com | grep -oE 'https://[^"]+\.rpm' | grep -E 'x86_64|amd64' | head -n 1)
+        curl -fsSL "$RPM_URL" -o /tmp/openlogi.rpm
+        dnf install -y /tmp/openlogi.rpm
+        rm -f /tmp/openlogi.rpm
+
   - type: signing
