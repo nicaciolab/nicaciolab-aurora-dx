@@ -24,4 +24,5 @@ modules:
         - com.brave.Browser
         - org.onlyoffice.desktopeditors
         - ai.opencode.opencode
+        - org.qbittorrent.qBittorrent
   - type: signing
