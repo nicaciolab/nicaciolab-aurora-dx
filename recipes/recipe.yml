@@ -1,7 +1,6 @@
----
-# yaml-language-server: $schema=https://blue-build.org
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: nicaciolab-aurora-dx
-description: Minha imagem personalizada do Aurora DX
+description: Imagem personalizada baseada no Aurora-DX com aplicativos e ferramentas de uso diário.
 
 base-image: ghcr.io/ublue-os/aurora-dx
 image-version: stable
@@ -16,6 +15,7 @@ modules:
     install:
       packages:
         - micro
+        - jq
 
   - type: default-flatpaks@v1
     notify: true
@@ -27,12 +27,14 @@ modules:
         - org.qbittorrent.qBittorrent
         - org.videolan.VLC
 
-  # Instala o OpenCode CLI e a última release oficial (.rpm) do OpenLogi via API do GitHub
   - type: script
     snippets:
-      - "curl -fsSL https://opencode.ai | OPENCODE_INSTALL_DIR=/usr/bin bash"
       - |
-        RPM_URL=$(curl -fsSL https://github.com | grep -oE 'https://[^"]+\.rpm' | grep -E 'x86_64|amd64' | head -n 1)
+        set -euo pipefail
+        HOST="api.github.com"
+        REPO="AprilNEA/OpenLogi"
+        API_URL="https://${HOST}/repos/${REPO}/releases/latest"
+        RPM_URL=$(curl -fsSL "$API_URL" | jq -r '.assets[].browser_download_url | select(endswith(".rpm"))' | head -n 1)
         curl -fsSL "$RPM_URL" -o /tmp/openlogi.rpm
         dnf install -y /tmp/openlogi.rpm
         rm -f /tmp/openlogi.rpm
