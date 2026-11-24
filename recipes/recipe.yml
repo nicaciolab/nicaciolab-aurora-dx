@@ -22,5 +22,5 @@ modules:
     system:
       install:
         - com.brave.Browser
-
+        - org.onlyoffice.desktopeditors
   - type: signing
