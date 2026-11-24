@@ -23,4 +23,5 @@ modules:
       install:
         - com.brave.Browser
         - org.onlyoffice.desktopeditors
+        - ai.opencode.opencode
   - type: signing
