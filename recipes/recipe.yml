@@ -25,4 +25,5 @@ modules:
         - org.onlyoffice.desktopeditors
         - ai.opencode.opencode
         - org.qbittorrent.qBittorrent
+        - org.videolan.VLC
   - type: signing
